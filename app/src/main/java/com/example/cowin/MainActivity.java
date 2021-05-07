@@ -1,23 +1,27 @@
 package com.example.cowin;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import retrofit2.Call;
@@ -27,6 +31,10 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     String TAG = "MainActivity";
+    String FILTER_KEYWORD = "CoWIN";
+
+    String mPhoneNumber;
+
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
 
     ApiInterface apiInterface;
@@ -35,12 +43,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         checkAndRequestPermissions();
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        TextView mobileNumberView = findViewById(R.id.number);
+
+
         SmsReceiver.bindListener(new SmsListener() {
             @Override
             public void messageReceived(String messageText) {
-                Log.i(TAG, messageText);
-                if (messageText.contains("CoWIN")) {
-                    sendOTP(messageText, "7705099775");
+//                Log.i(TAG, messageText);
+                mPhoneNumber = mobileNumberView.getText().toString().trim();
+                Log.i(TAG, mPhoneNumber);
+                if (messageText.contains(FILTER_KEYWORD)) {
+                    sendOTP(messageText, mPhoneNumber);
                 }
 
             }
