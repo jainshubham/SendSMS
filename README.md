@@ -2,5 +2,6 @@ The app reads all SMSes from an android phone and sends it to a specifed API. Th
 The API base URL can be modified from the app/src/main/java/com/example/cowin/RetorfitInstance.java
 The keyword can be modified from the app/src/main/java/com/example/cowin/MainActivity.java
 
+Find app APK at app/build/outputs/apk/debug/app-debug.apk 
 
 
